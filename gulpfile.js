@@ -24,5 +24,5 @@ gulp.task('serve', ['css:watch'], function() {
         }
     })
 
-    gulp.watch(['*.html', 'css/*.css', 'js/*.js', 'imgs/**/*.*'], {cwd: 'app'}, reload)
+    gulp.watch(['**/*.html', 'css/*.css', 'js/*.js', 'imgs/**/*.*'], {cwd: 'app'}, reload)
 });
