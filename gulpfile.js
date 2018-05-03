@@ -1,13 +1,16 @@
 const gulp = require("gulp");
+const plumber = require('gulp-plumber');
 const sass = require("gulp-sass");
+const pug = require('gulp-pug');
 const rename = require("gulp-rename");
 const browserSync = require("browser-sync");
 const autoprefixer = require("gulp-autoprefixer");
 const reload = browserSync.reload;
 
-gulp.task("css", function() {
+gulp.task("scss", function () {
   return gulp
     .src("./scss/base.scss")
+    .pipe(plumber())
     .pipe(sass().on("error", sass.logError))
     .pipe(
       autoprefixer({
@@ -17,18 +20,29 @@ gulp.task("css", function() {
       })
     )
     .pipe(
-      rename(function(path) {
+      rename(function (path) {
         path.basename = "style";
       })
     )
     .pipe(gulp.dest("./app/css/"));
 });
 
-gulp.task("css:watch", function() {
-  gulp.watch("scss/**/*.scss", ["css"]);
+gulp.task("pug", function () {
+  return gulp
+    .src("./pug/*.pug")
+    .pipe(plumber())
+    .pipe(pug({
+      pretty: true
+    }))
+    .pipe(gulp.dest("./app/"));
 });
 
-gulp.task("serve", ["css:watch"], function() {
+gulp.task("watch", function () {
+  gulp.watch("scss/**/*.scss", ["scss"]);
+  gulp.watch("pug/**/*.pug", ["pug"]);
+});
+
+gulp.task("serve", ["watch"], function () {
   browserSync({
     server: {
       baseDir: "app"
