@@ -30,7 +30,7 @@ gulp.task("scss", function () {
 
 gulp.task("pug", function () {
   return gulp
-    .src("./pug/*.pug")
+    .src(["./pug/*.pug", "./pug/!(_)*/*.pug"])
     .pipe(plumber())
     .pipe(pug({
       pretty: true
