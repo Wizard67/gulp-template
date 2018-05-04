@@ -1,12 +1,12 @@
 {
-  "name": "glup-test",
+  "name": "glup-template",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "gulp serve"
   },
-  "author": "",
+  "author": "Wizard67",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.23.6",
