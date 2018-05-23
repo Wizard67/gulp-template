@@ -2,6 +2,7 @@ const gulp = require("gulp");
 const sass = require("gulp-sass");
 const pug = require('gulp-pug');
 const plumber = require('gulp-plumber');
+const cache = require('gulp-cached');
 const sassGlob = require('gulp-sass-glob');
 const rename = require("gulp-rename");
 const browserSync = require("browser-sync");
@@ -25,13 +26,15 @@ gulp.task("scss", function () {
         path.basename = "style";
       })
     )
-    .pipe(gulp.dest("./app/css/"));
+    .pipe(gulp.dest("./app/css/"))
+    .pipe(browserSync.stream());
 });
 
 gulp.task("pug", function () {
   return gulp
     .src(["./pug/*.pug", "./pug/!(_)*/*.pug"])
     .pipe(plumber())
+    .pipe(cache('pug'))
     .pipe(pug({
       pretty: true
     }))
@@ -40,7 +43,7 @@ gulp.task("pug", function () {
 
 gulp.task("watch", function () {
   gulp.watch("scss/**/*.scss", ["scss"]);
-  gulp.watch("pug/**/*.pug", ["pug"]);
+  gulp.watch("pug/**/*.pug", ["pug"])
 });
 
 gulp.task("serve", ["watch"], function () {
@@ -51,7 +54,7 @@ gulp.task("serve", ["watch"], function () {
   });
 
   gulp.watch(
-    ["**/*.html", "css/*.css", "js/*.js", "imgs/**/*.*"],
+    ["**/*.html", "js/*.js", "imgs/**/*.*"],
     { cwd: "app" },
     reload
   );
